@@ -1,0 +1,36 @@
+{
+  "name" : "SQS_JOB",
+  "jobMode" : "SCRIPT",
+  "description" : "",
+  "role" : "arn:aws:iam::541974874652:role/Glue-role-e3586f8c_sqs_glue_job",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "pythonshell",
+    "scriptLocation" : "s3://aws-glue-assets-541974874652-ap-south-1/scripts/SQS_JOB.py",
+    "pythonVersion" : "3.9"
+  },
+  "defaultArguments" : {
+    "--enable-job-insights" : "false",
+    "--enable-observability-metrics" : "false",
+    "--enable-glue-datacatalog" : "",
+    "library-set" : "analytics",
+    "--DEST_BUCKET" : "sqs-demo-target-bucket",
+    "--QUEUE_URL" : "https://sqs.ap-south-1.amazonaws.com/541974874652/get_s3_list",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-541974874652-ap-south-1/temporary/"
+  },
+  "maxRetries" : 0,
+  "allocatedCapacity" : 0,
+  "timeout" : 2880,
+  "maxCapacity" : 0.0625,
+  "glueVersion" : "3.0",
+  "executionClass" : "STANDARD",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "batch3-aws",
+    "branch" : "feature",
+    "folder" : "glue"
+  }
+}
