@@ -1,0 +1,41 @@
+{
+  "name" : "bach3_streaming_pipeline",
+  "jobMode" : "VISUAL",
+  "description" : "",
+  "role" : "arn:aws:iam::541974874652:role/service-role/AWSGlueServiceRole-batch3",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "gluestreaming",
+    "scriptLocation" : "s3://aws-glue-assets-541974874652-ap-south-1/scripts/bach3_streaming_pipeline.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-541974874652-ap-south-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-observability-metrics" : "false",
+    "--conf" : "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true",
+    "--enable-glue-datacatalog" : "",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-disable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-541974874652-ap-south-1/temporary/"
+  },
+  "maxRetries" : 0,
+  "allocatedCapacity" : 2,
+  "maxCapacity" : 2.0,
+  "glueVersion" : "5.1",
+  "numberOfWorkers" : 2,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-1785726876374\":{\"S3GlueParquetTarget\":{\"AutoDataQuality\":{\"IsEnabled\":false},\"Compression\":\"snappy\",\"Inputs\":[\"node-1785726622306\"],\"Name\":\"Amazon S3\",\"NumberTargetPartitions\":\"0\",\"PartitionKeys\":[],\"Path\":\"s3://realtime-empoyee-data\",\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false}}},\"node-1785726622306\":{\"CatalogKinesisSource\":{\"Database\":\"realtime_data\",\"DetectSchema\":true,\"Name\":\"Amazon Kinesis\",\"StreamingOptions\":{\"StartingPosition\":\"earliest\"},\"Table\":\"emploeew_data_batch03\",\"WindowSize\":100}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "batch3-aws",
+    "branch" : "feature",
+    "folder" : "glue"
+  }
+}
