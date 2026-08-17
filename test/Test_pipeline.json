@@ -1,0 +1,44 @@
+{
+  "name" : "Test_pipeline",
+  "jobMode" : "VISUAL",
+  "description" : "",
+  "role" : "arn:aws:iam::541974874652:role/service-role/AWSGlueServiceRole-batch3",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-541974874652-eu-north-1/scripts/Test_pipeline.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-541974874652-eu-north-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-observability-metrics" : "true",
+    "--conf" : "spark.eventLog.rolling.enabled=true --conf spark.sql.catalog.glue_catalog.glue.skip-name-validation=true",
+    "--enable-glue-datacatalog" : "",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-disable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-541974874652-eu-north-1/temporary/"
+  },
+  "connections" : {
+    "connections" : [ "Batch3-Redshift-Demo" ]
+  },
+  "maxRetries" : 0,
+  "allocatedCapacity" : 10,
+  "timeout" : 480,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "5.1",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "codeGenConfigurationNodes" : "{\"node-1785288070351\":{\"S3CsvSource\":{\"AdditionalOptions\":{\"EnableSamplePath\":false,\"SamplePath\":\"s3://catalogdata1807/account/account_1.csv\"},\"Escaper\":\"\",\"Exclusions\":[],\"Name\":\"Account\",\"OptimizePerformance\":false,\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"account_id\",\"Type\":\"string\"},{\"Name\":\"customer_id\",\"Type\":\"string\"},{\"Name\":\"account_type\",\"Type\":\"string\"},{\"Name\":\"account_status\",\"Type\":\"string\"},{\"Name\":\"opening_date\",\"Type\":\"string\"},{\"Name\":\"closing_date\",\"Type\":\"string\"},{\"Name\":\"currency\",\"Type\":\"string\"},{\"Name\":\"current_balance\",\"Type\":\"string\"},{\"Name\":\"available_balance\",\"Type\":\"string\"},{\"Name\":\"branch_code\",\"Type\":\"string\"}]}],\"Paths\":[\"s3://catalogdata1807/account/account_1.csv\"],\"QuoteChar\":\"quote\",\"Recurse\":true,\"Separator\":\"comma\",\"WithHeader\":true}},\"node-1785288159708\":{\"Join\":{\"Columns\":[{\"From\":\"node-1785288071991\",\"Keys\":[[\"customer_id\"]]},{\"From\":\"node-1785288253590\",\"Keys\":[[\"right_customer_id\"]]}],\"Inputs\":[\"node-1785288071991\",\"node-1785288253590\"],\"JoinType\":\"equijoin\",\"Name\":\"Join Cust-Account\"}},\"node-1785288071991\":{\"S3CsvSource\":{\"AdditionalOptions\":{\"EnableSamplePath\":false,\"SamplePath\":\"s3://catalogdata1807/customer/customers_1.csv\"},\"Escaper\":\"\",\"Exclusions\":[],\"Name\":\"Customer\",\"OptimizePerformance\":false,\"OutputSchemas\":[{\"Columns\":[{\"Name\":\"customer_id\",\"Type\":\"string\"},{\"Name\":\"name\",\"Type\":\"string\"},{\"Name\":\"city\",\"Type\":\"string\"},{\"Name\":\"country\",\"Type\":\"string\"}]}],\"Paths\":[\"s3://catalogdata1807/customer/customers_1.csv\"],\"QuoteChar\":\"quote\",\"Recurse\":true,\"Separator\":\"comma\",\"WithHeader\":true}},\"node-1785288253590\":{\"ApplyMapping\":{\"Inputs\":[\"node-1785288070351\"],\"Mapping\":[{\"Dropped\":false,\"FromPath\":[\"account_id\"],\"FromType\":\"string\",\"ToKey\":\"right_account_id\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"customer_id\"],\"FromType\":\"string\",\"ToKey\":\"right_customer_id\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"account_type\"],\"FromType\":\"string\",\"ToKey\":\"right_account_type\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"account_status\"],\"FromType\":\"string\",\"ToKey\":\"right_account_status\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"opening_date\"],\"FromType\":\"string\",\"ToKey\":\"right_opening_date\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"closing_date\"],\"FromType\":\"string\",\"ToKey\":\"right_closing_date\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"currency\"],\"FromType\":\"string\",\"ToKey\":\"right_currency\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"current_balance\"],\"FromType\":\"string\",\"ToKey\":\"right_current_balance\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"available_balance\"],\"FromType\":\"string\",\"ToKey\":\"right_available_balance\",\"ToType\":\"string\"},{\"Dropped\":false,\"FromPath\":[\"branch_code\"],\"FromType\":\"string\",\"ToKey\":\"right_branch_code\",\"ToType\":\"string\"}],\"Name\":\"Renamed keys for Join Cust-Account\"}},\"node-1785288293502\":{\"AmazonRedshiftTarget\":{\"Data\":{\"AccessType\":\"connection\",\"Action\":\"drop\",\"AdvancedOptions\":[],\"Connection\":{\"Description\":\"No description available. Version: 2\",\"Label\":\"Batch3-Redshift-Demo\",\"Value\":\"Batch3-Redshift-Demo\"},\"MergeAction\":\"simple\",\"MergeWhenMatched\":\"update\",\"MergeWhenNotMatched\":\"insert\",\"Schema\":{\"Label\":\"sh1\",\"Value\":\"sh1\"},\"SelectedColumns\":[],\"SourceType\":\"table\",\"StagingTable\":\"sh1.custome_account_temp_qq5z4l\",\"Table\":{\"Label\":\"custome_account\",\"Value\":\"custome_account\"},\"TableSchema\":[{\"Description\":\"VARCHAR\",\"Label\":\"customer_id\",\"Value\":\"customer_id\"},{\"Description\":\"VARCHAR\",\"Label\":\"name\",\"Value\":\"name\"},{\"Description\":\"VARCHAR\",\"Label\":\"city\",\"Value\":\"city\"},{\"Description\":\"VARCHAR\",\"Label\":\"country\",\"Value\":\"country\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_account_id\",\"Value\":\"right_account_id\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_customer_id\",\"Value\":\"right_customer_id\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_account_type\",\"Value\":\"right_account_type\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_account_status\",\"Value\":\"right_account_status\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_opening_date\",\"Value\":\"right_opening_date\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_closing_date\",\"Value\":\"right_closing_date\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_currency\",\"Value\":\"right_currency\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_current_balance\",\"Value\":\"right_current_balance\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_available_balance\",\"Value\":\"right_available_balance\"},{\"Description\":\"VARCHAR\",\"Label\":\"right_branch_code\",\"Value\":\"right_branch_code\"}],\"TempDir\":\"s3://aws-glue-assets-541974874652-eu-north-1/temporary/\",\"Upsert\":false},\"Inputs\":[\"node-1785288159708\"],\"Name\":\"Amazon Redshift\"}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "batch3-aws",
+    "branch" : "feature",
+    "folder" : "test"
+  }
+}
